@@ -7,16 +7,38 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src https://api.anthropic.com; form-action 'none'; base-uri 'none'; object-src 'none'">
   <meta name="referrer" content="no-referrer">
   <title>AI Use Disclosure Builder</title>
+  <link rel="preload" href="assets/fonts/PlayfairDisplay.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/EBGaramond.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="icon" href="assets/malonelab-logo-gold.png">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="topbar">
+    <div class="wrap topbar-inner">
+      <a href="https://www.malonelab.org/">Malone Disturbance Ecology Lab</a>
+      <span>Yale School of the Environment</span>
+    </div>
+  </div>
   <header class="site-header">
-    <div class="wrap">
+    <div class="wrap header-inner">
+      <a class="brand" href="https://www.malonelab.org/" aria-label="Malone Disturbance Ecology Lab home">
+        <img src="assets/malonelab-logo-white.png" alt="Malone Disturbance Ecology Lab" width="280" height="120">
+      </a>
+      <nav class="site-nav" aria-label="Site">
+        <a href="https://www.malonelab.org/">Lab website</a>
+        <a href="https://www.malonelab.org/new-page">Lab policies</a>
+        <a href="https://github.com/Malone-Disturbance-Ecology-Lab/AI_Use_Disclosure">Source code</a>
+      </nav>
+    </div>
+    <div class="wrap hero">
       <h1>AI Use Disclosure Builder</h1>
       <p class="lede">Answer a short survey about how you and AI tools contributed to your paper or project. You'll get a clear, specific disclosure statement that separates <em>your</em> work from the AI's and says what was and wasn't verified.</p>
-      <p class="privacy-note"><strong>Nothing is saved.</strong> Your answers stay in this browser tab only, with no accounts, cookies, local storage, or analytics. Closing the tab or pressing <em>Erase everything</em> deletes them. If you use the optional chatbot, your answers go only to the AI provider you choose.</p>
     </div>
   </header>
+
+  <div class="wrap">
+    <p class="privacy-note"><strong>Nothing is saved.</strong> Your answers stay in this browser tab only, with no accounts, cookies, local storage, or analytics. Closing the tab or pressing <em>Erase everything</em> deletes them. If you use the optional chatbot, your answers go only to the AI provider you choose.</p>
+  </div>
 
   <nav class="steps wrap" aria-label="Survey steps">
     <ol id="stepNav"></ol>
@@ -214,8 +236,14 @@
   </main>
 
   <div id="toast" role="status" aria-live="polite"></div>
-  <footer class="wrap site-footer">
-    <p>Runs entirely in your browser. Open source; see README for how it works.</p>
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <a href="https://www.malonelab.org/" class="footer-logo"><img src="assets/malonelab-logo-gold.png" alt="Malone Disturbance Ecology Lab" width="220" height="94"></a>
+      <div>
+        <p>A tool from the <a href="https://www.malonelab.org/">Malone Disturbance Ecology Lab</a>, Yale School of the Environment.</p>
+        <p>Runs entirely in your browser; nothing is stored. <a href="https://github.com/Malone-Disturbance-Ecology-Lab/AI_Use_Disclosure">Open source on GitHub</a>.</p>
+      </div>
+    </div>
   </footer>
   <script src="app.js"></script>
 </body>

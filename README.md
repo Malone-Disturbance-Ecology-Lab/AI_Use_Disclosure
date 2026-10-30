@@ -26,11 +26,19 @@ The chatbot is told to use only facts from the survey and never invent tools, us
 
 ## Deploy on GitHub Pages
 
-1. Push `index.html`, `app.js`, `styles.css`, and `.nojekyll` to the repository root (or to `/docs`).
+1. Push `index.html`, `app.js`, `styles.css`, `assets/`, and `.nojekyll` to the repository root (or to `/docs`).
 2. Go to **Settings → Pages → Build and deployment** and set **Source: Deploy from a branch** with **Branch: `main`**, folder `/ (root)` (or `/docs`).
 3. The app will be live at `https://<user-or-org>.github.io/AI_Use_Disclosure/`.
 
 To run it locally, open `index.html` in a browser, or run `python -m http.server` and visit `http://localhost:8000`.
+
+## Branding
+
+The styling matches [malonelab.org](https://www.malonelab.org/): Yale-blue top bar, charcoal header with the lab logo, Playfair Display headings, Garamond body text, and gold buttons.
+
+- Logos: `assets/malonelab-logo-white.png` (header) and `assets/malonelab-logo-gold.png` (footer and favicon).
+- Fonts: Playfair Display and EB Garamond are self-hosted in `assets/fonts/` under the SIL Open Font License (license files included). Nothing is loaded from Google Fonts or any other third party.
+- Colors are CSS variables at the top of `styles.css`.
 
 ## Customizing
 
