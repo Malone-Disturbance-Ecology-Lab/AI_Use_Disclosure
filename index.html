@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Privacy: scripts/styles only from this site; the ONLY network destination allowed is the Anthropic API (used only if you opt in to the chatbot). -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src https://api.anthropic.com; form-action 'none'; base-uri 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>AI Use Disclosure Builder</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <h1>AI Use Disclosure Builder</h1>
+      <p class="lede">Answer a short survey about how you and AI tools contributed to your paper or project. You'll get a clear, specific disclosure statement that separates <em>your</em> work from the AI's and says what was and wasn't verified.</p>
+      <p class="privacy-note"><strong>Nothing is saved.</strong> Your answers stay in this browser tab only, with no accounts, cookies, local storage, or analytics. Closing the tab or pressing <em>Erase everything</em> deletes them. If you use the optional chatbot, your answers go only to the AI provider you choose.</p>
+    </div>
+  </header>
+
+  <nav class="steps wrap" aria-label="Survey steps">
+    <ol id="stepNav"></ol>
+  </nav>
+
+  <main class="wrap">
+    <form id="survey" autocomplete="off" novalidate>
+
+      <!-- STEP 0: Project -->
+      <section class="step" data-title="Project">
+        <h2>1. About your project</h2>
+        <label>Title of the paper or project
+          <input name="title" placeholder="e.g., Mangrove methane fluxes across a salinity gradient">
+        </label>
+        <div class="grid2">
+          <label>Type of work
+            <select name="type">
+              <option value="manuscript">Journal manuscript</option>
+              <option value="preprint">Preprint</option>
+              <option value="conference paper">Conference paper / abstract</option>
+              <option value="grant proposal">Grant proposal</option>
+              <option value="thesis">Thesis / dissertation</option>
+              <option value="software package">Software / code repository</option>
+              <option value="dataset">Dataset / data paper</option>
+              <option value="report">Report</option>
+              <option value="assignment">Course assignment</option>
+              <option value="project">Other project</option>
+            </select>
+          </label>
+          <label>Write the statement as
+            <select name="voice">
+              <option value="we">"We" (multiple authors)</option>
+              <option value="I">"I" (single author)</option>
+            </select>
+          </label>
+          <label>Format
+            <select name="format">
+              <option value="paragraph">Paragraph (for a manuscript section)</option>
+              <option value="structured">Structured list (for a README, appendix, or form)</option>
+            </select>
+          </label>
+          <label>Length
+            <select name="stmtLength">
+              <option value="full">Detailed</option>
+              <option value="concise">Concise</option>
+            </select>
+          </label>
+        </div>
+        <label>Venue or funder AI policy <span class="opt">(optional)</span>
+          <textarea name="policy" rows="3" placeholder="Paste the journal's, funder's, or course's AI-use requirements so the chatbot can tailor the statement."></textarea>
+        </label>
+      </section>
+
+      <!-- STEP 1: Tools -->
+      <section class="step" data-title="AI tools">
+        <h2>2. Which AI tools did you use?</h2>
+        <p class="hint">List each generative AI tool. Include the model or version if you know it. Leave this empty if you used none.</p>
+        <div id="tools"></div>
+        <button type="button" class="secondary" id="addTool">+ Add another tool</button>
+      </section>
+
+      <!-- STEP 2: Prompts & inputs -->
+      <section class="step" data-title="Prompts & inputs">
+        <h2>3. Your prompts and what you gave the AI</h2>
+        <fieldset>
+          <legend>How did you direct the AI?</legend>
+          <label class="inline"><input type="radio" name="promptStyle" value="single" checked> Individual, self-contained prompts</label>
+          <label class="inline"><input type="radio" name="promptStyle" value="iterative"> Iterative conversation where I reviewed and refined outputs</label>
+          <label class="inline"><input type="radio" name="promptStyle" value="agentic"> Agentic / automated workflow, where the AI carried out multi-step tasks</label>
+          <label class="inline"><input type="radio" name="promptStyle" value="mixed"> A mix of these</label>
+        </fieldset>
+        <label>Describe your prompts in your own words
+          <textarea name="promptDesc" rows="3" placeholder="e.g., I asked it to suggest edits for concision without changing scientific meaning, and gave it explicit constraints on terminology."></textarea>
+          <span class="hint">Write full sentences; they are inserted into your statement.</span>
+        </label>
+        <fieldset>
+          <legend>What material of your own did you provide to the AI?</legend>
+          <label class="inline"><input type="checkbox" name="inputs" value="text"> My own draft text</label>
+          <label class="inline"><input type="checkbox" name="inputs" value="code"> My own code</label>
+          <label class="inline"><input type="checkbox" name="inputs" value="data"> My own data</label>
+          <label class="inline"><input type="checkbox" name="inputs" value="lit"> Published papers or excerpts</label>
+          <label class="inline"><input type="checkbox" name="inputs" value="figures"> Figures or images</label>
+        </fieldset>
+        <label>Are your prompts available to readers?
+          <select name="promptAvail">
+            <option value="">Don't mention</option>
+            <option value="request">Available on request</option>
+            <option value="supp">Provided in supplementary material / repository</option>
+            <option value="notkept">Not retained</option>
+          </select>
+        </label>
+      </section>
+
+      <!-- STEP 3: Contributions -->
+      <section class="step" data-title="Contributions">
+        <h2>4. Who did what?</h2>
+        <p class="hint">For each part of the work, pick how much the AI contributed. Then describe what the AI did and what <strong>you</strong> did. Leave parts you did without AI as "Not used."</p>
+        <div id="areas"></div>
+      </section>
+
+      <!-- STEP 4: Verification -->
+      <section class="step" data-title="Verification">
+        <h2>5. What did you verify, and what didn't you?</h2>
+        <p class="hint">Be candid. Saying what you did <em>not</em> check is what makes a disclosure trustworthy.</p>
+        <p id="noVerify" class="empty">You haven't marked any AI use in step 4, so there's nothing to verify.</p>
+        <div id="verify"></div>
+      </section>
+
+      <!-- STEP 5: Integrity -->
+      <section class="step" data-title="Data & responsibility">
+        <h2>6. Data, citations and responsibility</h2>
+        <label>Did you enter confidential, unpublished, proprietary, or personally identifiable data into an AI tool?
+          <select name="confidential">
+            <option value="no">No</option>
+            <option value="approved">Yes, but only into an institutionally approved / non-training tool</option>
+            <option value="yes">Yes</option>
+          </select>
+        </label>
+        <label>Details <span class="opt">(optional)</span>
+          <textarea name="confDetail" rows="2" placeholder="e.g., Unpublished flux data were processed using our university's enterprise license, which does not retain inputs."></textarea>
+        </label>
+        <label>References suggested by AI
+          <select name="citations">
+            <option value="na">The AI did not suggest references</option>
+            <option value="checked">I checked every AI-suggested reference against the original source</option>
+            <option value="unchecked">Not all AI-suggested references were checked</option>
+          </select>
+        </label>
+        <label class="inline"><input type="checkbox" name="notAuthor" checked> No AI tool is listed as an author</label>
+        <label class="inline"><input type="checkbox" name="responsible"> I/we reviewed the AI-assisted content and take full responsibility for the work <span class="req">(needed for the responsibility sentence)</span></label>
+        <label>Anything else to disclose? <span class="opt">(optional)</span>
+          <textarea name="extra" rows="2" placeholder="e.g., An AI-based reference manager was used for formatting only."></textarea>
+        </label>
+      </section>
+
+      <!-- STEP 6: Statement & chatbot -->
+      <section class="step" data-title="Statement">
+        <h2>7. Your AI use statement</h2>
+        <div id="warnings" class="warnings" hidden></div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Draft statement</h3>
+            <div class="btns">
+              <button type="button" class="secondary" id="copyDraft">Copy</button>
+              <button type="button" class="secondary" id="downloadDraft">Download .txt</button>
+            </div>
+          </div>
+          <textarea id="draft" rows="12" spellcheck="true" aria-label="Draft statement (editable)"></textarea>
+          <p class="hint">This draft comes only from your answers. You can edit it here, or have the chatbot polish it below.</p>
+        </div>
+
+        <div class="panel chat">
+          <div class="panel-head"><h3>Chatbot: polish and refine</h3></div>
+          <p class="hint">The chatbot gets your survey answers and the draft. It is told not to invent anything. It writes a final statement, and you can then ask for changes (e.g., "make it 100 words", "follow the Nature policy").</p>
+
+          <details class="chat-opt" open>
+            <summary>Option A: chat here with your own Anthropic API key</summary>
+            <div class="grid2">
+              <label>API key <span class="opt">(kept only in memory, never saved)</span>
+                <input type="password" id="apiKey" autocomplete="off" placeholder="sk-ant-...">
+              </label>
+              <label>Model
+                <input id="model" value="claude-sonnet-5-5" autocomplete="off">
+              </label>
+            </div>
+            <div id="chatLog" class="chat-log" aria-live="polite"></div>
+            <div class="chat-input">
+              <textarea id="chatMsg" rows="2" placeholder="Leave empty and press Send to get the first version, or type a revision request."></textarea>
+              <button type="button" id="chatSend">Send</button>
+            </div>
+          </details>
+
+          <details class="chat-opt">
+            <summary>Option B: use any chatbot you already have (no key needed)</summary>
+            <p class="hint">This copies a ready-made prompt with your answers to the clipboard. Paste it into Claude, ChatGPT, Copilot, or your institution's approved assistant.</p>
+            <div class="btns">
+              <button type="button" class="secondary" id="copyPrompt">Copy chatbot prompt</button>
+              <button type="button" class="secondary" id="openClaude">Copy prompt &amp; open Claude.ai</button>
+            </div>
+          </details>
+        </div>
+
+        <div class="done">
+          <p>When you've copied your statement, erase everything. (It's also gone once you close this tab.)</p>
+          <button type="button" class="danger" id="eraseAll">Erase everything &amp; start over</button>
+        </div>
+      </section>
+    </form>
+
+    <div class="pager">
+      <button type="button" class="secondary" id="prev">← Back</button>
+      <button type="button" id="next">Next →</button>
+    </div>
+  </main>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <footer class="wrap site-footer">
+    <p>Runs entirely in your browser. Open source; see README for how it works.</p>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
