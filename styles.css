@@ -2,11 +2,11 @@
    Yale-blue top bar, charcoal header with white logo, Playfair Display headings,
    Garamond body text, light gray page, gold pill buttons. Fonts are self-hosted (SIL OFL). */
 
-@font-face { font-family: "Playfair Display"; src: url("assets/fonts/PlayfairDisplay.woff2") format("woff2");
+@font-face { font-family: "Playfair Display"; src: url("assets/fonts/PlayfairDisplay.woff2?v=20261030b") format("woff2");
   font-weight: 400 900; font-style: normal; font-display: swap; }
-@font-face { font-family: "EB Garamond"; src: url("assets/fonts/EBGaramond.woff2") format("woff2");
+@font-face { font-family: "EB Garamond"; src: url("assets/fonts/EBGaramond.woff2?v=20261030b") format("woff2");
   font-weight: 400 800; font-style: normal; font-display: swap; }
-@font-face { font-family: "EB Garamond"; src: url("assets/fonts/EBGaramond-Italic.woff2") format("woff2");
+@font-face { font-family: "EB Garamond"; src: url("assets/fonts/EBGaramond-Italic.woff2?v=20261030b") format("woff2");
   font-weight: 400 800; font-style: italic; font-display: swap; }
 
 :root {
